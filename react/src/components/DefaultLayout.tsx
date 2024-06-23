@@ -10,6 +10,10 @@ function DefaultLayout() {
     return <Navigate to="/login" />
   }
 
+  const onLogout = (ev: React.MouseEvent<HTMLButtonElement>) => {
+    ev.preventDefault();
+  };
+
   return (
     <div className="container d-flex">
       <aside className="row bg-primary col-2 vh-100 flex-column">
@@ -18,8 +22,14 @@ function DefaultLayout() {
       </aside>
       <div className="row col-10 mx-auto h-25">
         <header className="bg-light">
-          <div>
-            CRUD от Дмитрия
+          <div className="col-10 p-2">
+            CRUD от Дмитрия Кабацюры
+          </div>
+          <div className="d-flex p-2 column-gap-2">
+            <div className="">
+              {user.name}
+            </div>
+            <button onClick={onLogout} className="px-2">Выйти</button>
           </div>
         </header>
         <main className="mx-auto d-flex justify-content-center mt-5 vh-100">
