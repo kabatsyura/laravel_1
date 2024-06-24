@@ -1,5 +1,9 @@
 start:
-	php artisan serve --host 0.0.0.0
+	php artisan serve
+
+start-react:
+	cd ./react
+	npm run dev
 
 # lint:
 # 	composer exec duster lint

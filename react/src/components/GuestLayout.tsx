@@ -10,9 +10,10 @@ function GuestLayout() {
   }
 
   return (
-    <div>
-      Только для гостей сайта
-      <Outlet />
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="w-100" style={{ maxWidth: '400px' }}>
+        <Outlet />
+      </div>
     </div>
   );
 }
