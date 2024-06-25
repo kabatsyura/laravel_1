@@ -31,6 +31,8 @@ makeController:
 
 makeResource:
 	php artisan make:resource ProjectResource
+	php artisan make:resource TaskResource
+	php artisan make:resource UserResource
 
 route-list:
 	php artisan route:list
