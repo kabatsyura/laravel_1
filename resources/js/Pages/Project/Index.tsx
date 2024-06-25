@@ -3,6 +3,7 @@ import { Head, Link } from "@inertiajs/react";
 import { format } from 'date-fns';
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Pagination from "@/Components/Pagination";
 
 interface Auth {
   data: any;
@@ -69,7 +70,7 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
                     <th>Статус</th>
                     <th>Дата создания</th>
                     <th>Срок выполнения</th>
-                    <th>Создано кем</th>
+                    <th>Кем создана</th>
                     <th>Задачи</th>
                   </tr>
                 </thead>
@@ -101,6 +102,9 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
                   ))}
                 </tbody>
               </table>
+              <div className="d-flex justify-content-center">
+                <Pagination links={projects.meta.links} />
+              </div>
             </div>
           </div>
         </div>
