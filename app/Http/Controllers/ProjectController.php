@@ -16,20 +16,20 @@ class ProjectController extends Controller
     {
         // Создание базового запроса для модели Project
         $query = Project::query();
-    
+
         // Выполнение запроса с пагинацией на 10 записей на страницу
         $projects = $query->paginate(10);
-    
+
         // Фильтр: Проверка наличия параметра 'name' в запросе
-        if (request("name")) {
+        if (request('name')) {
             // Если параметр 'name' существует, добавляем условие фильтрации по имени
-            $query->where("name", "like", "%" . request("name") . "%");
+            $query->where('name', 'like', '%'.request('name').'%');
         }
 
-        if (request("status")) {
-            $query->where("status", request("status"));
+        if (request('status')) {
+            $query->where('status', request('status'));
         }
-    
+
         // Возврат данных через Inertia.js
         return inertia('Project/Index', [
             // Коллекция проектов, отформатированных с помощью ProjectResource
