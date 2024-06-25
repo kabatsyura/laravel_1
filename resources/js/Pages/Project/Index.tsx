@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { format } from 'date-fns';
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface Auth {
   data: any;
@@ -50,7 +51,7 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
       header={
         <h2 className="font-semibold text-xl text-gray-800
         dark:text-gray-200 leading-tight">
-          Проект
+          Мои проекты
         </h2>
       }
     >
@@ -59,8 +60,8 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
-              <table>
-                <thead>
+              <table className="table table-striped">
+                <thead className="fs-4">
                   <tr>
                     <th>ID</th>
                     <th>Изображение</th>
@@ -72,12 +73,12 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
                     <th>Задачи</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="fs-5">
                   {projects.data.map((project: Project) => (
                     <tr key={project.id}>
                       <td>{project.id}</td>
                       <td>
-                        <img src={project.image_path} alt="" />
+                        <img src={project.image_path} alt="" style={{ width: '200px' }}/>
                       </td>
                       <td>{project.name}</td>
                       <td>{project.status}</td>
@@ -85,8 +86,16 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
                       <td>{format(new Date(project.due_date), 'yyyy-MM-dd')}</td>
                       <td>{project.createdBy.name}</td>
                       <td>
-                        <Link href={route("project.edit", project.id)}>Изменить</Link>
-                        <Link href={route("project.edit", project.id)}>Удалить</Link>
+                        <div className="d-flex flex-column justify-content-center">
+                          <Link href={route("project.edit", project.id)} className="btn btn-primary mb-2 btn-sm" 
+                            style={{ width: '100px' }}>
+                              Изменить
+                            </Link>
+                          <Link href={route("project.edit", project.id)} className="btn btn-danger btn-sm"
+                            style={{ width: '100px' }}>
+                              Удалить
+                            </Link>
+                        </div>
                       </td>
                     </tr>
                   ))}
