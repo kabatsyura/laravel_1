@@ -17,9 +17,6 @@ class ProjectController extends Controller
         // Создание базового запроса для модели Project
         $query = Project::query();
 
-        // Выполнение запроса с пагинацией на 10 записей на страницу
-        $projects = $query->paginate(10);
-
         // Фильтр: Проверка наличия параметра 'name' в запросе
         if (request('name')) {
             // Если параметр 'name' существует, добавляем условие фильтрации по имени
@@ -29,6 +26,8 @@ class ProjectController extends Controller
         if (request('status')) {
             $query->where('status', request('status'));
         }
+        // Выполнение запроса с пагинацией на 10 записей на страницу
+        $projects = $query->paginate(10);
 
         // Возврат данных через Inertia.js
         return inertia('Project/Index', [
