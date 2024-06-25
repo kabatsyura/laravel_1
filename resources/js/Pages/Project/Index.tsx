@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from "@/Components/Pagination";
+import { useTranslation } from 'react-i18next';
 
 interface Auth {
   data: any;
@@ -46,6 +47,7 @@ interface IndexProps {
 }
 
 const Index: React.FC<IndexProps> = ({ auth, projects }) => {
+  const { t } = useTranslation();
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -64,14 +66,14 @@ const Index: React.FC<IndexProps> = ({ auth, projects }) => {
               <table className="table table-striped">
                 <thead className="fs-4">
                   <tr>
-                    <th>ID</th>
-                    <th>Изображение</th>
-                    <th>Название задачи</th>
-                    <th>Статус</th>
-                    <th>Дата создания</th>
-                    <th>Срок выполнения</th>
-                    <th>Кем создана</th>
-                    <th>Задачи</th>
+                    <th>{t("project.id")}</th>
+                    <th>{t("project.image")}</th>
+                    <th>{t("project.name")}</th>
+                    <th>{t("project.status")}</th>
+                    <th>{t("project.created_at")}</th>
+                    <th>{t("project.due_date")}</th>
+                    <th>{t("project.createdBy.name")}</th>
+                    <th>{t("project.actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="fs-5">
