@@ -1,12 +1,19 @@
 {
   "project": {
     "id": "ID",
+    "header": "Мои проекты",
     "image": "Изображение",
     "name": "Название задачи",
     "status": "Статус",
     "created_at": "Дата создания",
     "due_date": "Срок выполнения",
     "createdBy.name": "Кем создана",
-    "actions": "Задачи"
+    "actions": "Задачи",
+    "projectStatus": {
+      "nothing": "",
+      "pending": "pending",
+      "in_progress": "in_progress",
+      "completed": "completed"
+    }
   }
 }
