@@ -1,10 +1,49 @@
-// @ts-nocheck
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-// import React from "react";
-// import { format } from 'date-fns';
+import { format } from 'date-fns';
+import React from "react";
 
-const Index = ({ auth, projects }) => {
+interface Auth {
+  data: any;
+  user: {
+    // Определите свойства пользователя, которые вам нужны
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at: string;
+    data: Object;
+  },
+  projects: {
+    id: number;
+    name: string;
+    description: string;
+    created_at: Date;
+    due_date: Date;
+    status: string;
+    image_path: string;
+    createdBy: string;
+    updatedBy: string;
+  };
+}
+
+interface Project {
+  id: number;
+  name: string;
+  description: string;
+  created_at: Date;
+  due_date: Date;
+  status: string;
+  image_path: string;
+  createdBy: string;
+  updatedBy: string;
+}
+
+interface IndexProps {
+  auth: Auth;
+  projects: Auth;
+}
+
+const Index: React.FC<IndexProps> = ({ auth, projects }) => {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -34,7 +73,7 @@ const Index = ({ auth, projects }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {projects.data.map((project) => (
+                  {projects.data.map((project: Project) => (
                     <tr key={project.id}>
                       <td>{project.id}</td>
                       <td>
@@ -42,8 +81,8 @@ const Index = ({ auth, projects }) => {
                       </td>
                       <td>{project.name}</td>
                       <td>{project.status}</td>
-                      <td>{project.created_at}</td>
-                      <td>{project.due_date}</td>
+                      <td>{format(new Date(project.created_at), 'yyyy-MM-dd')}</td>
+                      <td>{format(new Date(project.due_date), 'yyyy-MM-dd')}</td>
                       <td>{project.createdBy.name}</td>
                       <td>
                         <Link href={route("project.edit", project.id)}>Изменить</Link>
@@ -61,37 +100,10 @@ const Index = ({ auth, projects }) => {
   );
 }
 
-// interface Auth {
-//   data: any;
-//   user: {
-//     // Определите свойства пользователя, которые вам нужны
-//     id: number;
-//     name: string;
-//     email: string;
-//     email_verified_at: string;
-//     data: Object;
-//   },
-//   projects: Project[];
-// }
+// import React from "react";
+// import { format } from 'date-fns';
 
-// interface Project {
-//   id: number;
-//   name: string;
-//   description: string;
-//   created_at: Date;
-//   due_date: Date;
-//   status: string;
-//   image_path: string;
-//   createdBy: string;
-//   updatedBy: string;
-// }
-
-// interface IndexProps {
-//   auth: Auth;
-//   projects: Auth;
-// }
-
-// const Index: React.FC<IndexProps> = ({ auth, projects }) => {
+// const Index = ({ auth, projects }) => {
 //   return (
 //     <AuthenticatedLayout
 //       user={auth.user}
@@ -121,16 +133,16 @@ const Index = ({ auth, projects }) => {
 //                   </tr>
 //                 </thead>
 //                 <tbody>
-//                   {projects.data.map((project: Project) => (
-//                     <tr>
+//                   {projects.data.map((project) => (
+//                     <tr key={project.id}>
 //                       <td>{project.id}</td>
 //                       <td>
 //                         <img src={project.image_path} alt="" />
 //                       </td>
 //                       <td>{project.name}</td>
 //                       <td>{project.status}</td>
-//                       <td>{format(new Date(project.created_at), 'yyyy-MM-dd')}</td>
-//                       <td>{format(new Date(project.due_date), 'yyyy-MM-dd')}</td>
+//                       <td>{project.created_at}</td>
+//                       <td>{project.due_date}</td>
 //                       <td>{project.createdBy.name}</td>
 //                       <td>
 //                         <Link href={route("project.edit", project.id)}>Изменить</Link>
