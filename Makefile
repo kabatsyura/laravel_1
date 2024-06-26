@@ -21,6 +21,18 @@ prepare-db:
 seed-db:
 	php artisan migrate:refresh --seed
 
+
+first-step:
+	composer install
+	npm i
+	cp .env.example .env
+	php artisan key:generate
+	touch ./database/database.sqlite
+	make seed-db
+
+serve-test:
+	php artisan sentry:test
+
 tinker:
 	php artisan tinker
 
