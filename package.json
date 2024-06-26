@@ -24,6 +24,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@sentry/react": "^7.40.0",
         "bootstrap": "^5.3.3",
         "date-fns": "^3.6.0",
         "i18next": "^23.11.5",

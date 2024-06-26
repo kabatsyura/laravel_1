@@ -5,6 +5,11 @@ import './i18n';
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
+});
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
