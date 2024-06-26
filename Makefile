@@ -48,3 +48,4 @@ makeResource:
 
 route-list:
 	php artisan route:list
+	
