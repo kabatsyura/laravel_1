@@ -11,9 +11,9 @@
     "actions": "Задачи",
     "projectStatus": {
       "nothing": "",
-      "pending": "pending",
-      "in_progress": "in_progress",
-      "completed": "completed"
+      "pending": "Отменен",
+      "in_progress": "В процессе",
+      "completed": "Завершен"
     }
   }
 }

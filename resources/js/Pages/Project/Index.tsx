@@ -114,9 +114,9 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }) => 
                         defaultValue={queryParams.status}
                         onChange={(e) => searchFieldChanged('status', e.target.value)}>
                         <option value="">{t("project.projectStatus.nothing")}</option>
-                        <option value="pending">{t("project.projectStatus.pending")}</option>
-                        <option value="in_progress">{t("project.projectStatus.in_progress")}</option>
-                        <option value="completed">{t("project.projectStatus.completed")}</option>
+                        <option value={t("project.projectStatus.pending")}>{t("project.projectStatus.pending")}</option>
+                        <option value={t("project.projectStatus.in_progress")}>{t("project.projectStatus.in_progress")}</option>
+                        <option value={t("project.projectStatus.completed")}>{t("project.projectStatus.completed")}</option>
                       </SelectInput>
                     </th>
                     <th></th>
