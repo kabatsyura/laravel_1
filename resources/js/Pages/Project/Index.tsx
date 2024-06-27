@@ -48,7 +48,7 @@ interface IndexProps {
   projects: Auth;
 }
 
-const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }) => {
+const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): any => {
   queryParams = queryParams || {};
 
   const searchFieldChanged = (name: string, value: string): void => {
@@ -82,7 +82,7 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }) => 
     >
       <Head title="Проекты" />
       <div className="py-12">
-        <div className="col-8 mx-auto sm:px-6 lg:px-8">
+        <div className="mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <table className="table table-striped">
