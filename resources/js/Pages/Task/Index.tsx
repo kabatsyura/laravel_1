@@ -18,7 +18,7 @@ interface Auth {
     email_verified_at: string;
     data: Object;
   },
-  projects: {
+  tasks: {
     id: number;
     name: string;
     description: string;
@@ -31,7 +31,7 @@ interface Auth {
   };
 }
 
-interface Project {
+interface Task {
   id: number;
   name: string;
   description: string;
@@ -45,10 +45,10 @@ interface Project {
 
 interface IndexProps {
   auth: Auth;
-  projects: Auth;
+  tasks: Auth;
 }
 
-const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): any => {
+const Index: React.FC<IndexProps> = ({ auth, tasks, queryParams = null }): any => {
   queryParams = queryParams || {};
   const { t } = useTranslation();
 
@@ -59,7 +59,7 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
       delete queryParams[name];
     }
 
-    router.get(route("project.index"), queryParams);
+    router.get(route("task.index"), queryParams);
   }
 
   const onKeyPress = (name: string, e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -76,7 +76,7 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
       header={
         <h2 className="font-semibold text-xl text-gray-800
         dark:text-gray-200 leading-tight">
-          {t("project.header")}
+          {t("task.header")}
         </h2>
       }
     >
@@ -88,14 +88,14 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
               <table className="table table-striped">
                 <thead className="fs-4">
                   <tr>
-                    <th>{t("project.id")}</th>
-                    <th>{t("project.image")}</th>
-                    <th>{t("project.name")}</th>
-                    <th>{t("project.status")}</th>
-                    <th>{t("project.created_at")}</th>
-                    <th>{t("project.due_date")}</th>
-                    <th>{t("project.createdBy.name")}</th>
-                    <th>{t("project.actions")}</th>
+                    <th>{t("task.id")}</th>
+                    <th>{t("task.image")}</th>
+                    <th>{t("task.name")}</th>
+                    <th>{t("task.status")}</th>
+                    <th>{t("task.created_at")}</th>
+                    <th>{t("task.due_date")}</th>
+                    <th>{t("task.createdBy.name")}</th>
+                    <th>{t("task.actions")}</th>
                   </tr>
                 </thead>
                 <thead className="fs-4">
@@ -113,10 +113,10 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
                       <SelectInput className="w-full"
                         defaultValue={queryParams.status}
                         onChange={(e) => searchFieldChanged('status', e.target.value)}>
-                        <option value="">{t("project.projectStatus.nothing")}</option>
-                        <option value={t("project.projectStatus.pending")}>{t("project.projectStatus.pending")}</option>
-                        <option value={t("project.projectStatus.in_progress")}>{t("project.projectStatus.in_progress")}</option>
-                        <option value={t("project.projectStatus.completed")}>{t("project.projectStatus.completed")}</option>
+                        <option value="">{t("task.taskStatus.nothing")}</option>
+                        <option value={t("task.taskStatus.pending")}>{t("task.taskStatus.pending")}</option>
+                        <option value={t("task.taskStatus.in_progress")}>{t("task.taskStatus.in_progress")}</option>
+                        <option value={t("task.taskStatus.completed")}>{t("task.taskStatus.completed")}</option>
                       </SelectInput>
                     </th>
                     <th></th>
@@ -126,24 +126,24 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
                   </tr>
                 </thead>
                 <tbody className="fs-5">
-                  {projects.data.map((project: Project) => (
-                    <tr key={project.id}>
-                      <td>{project.id}</td>
+                  {tasks.data.map((task: Task) => (
+                    <tr key={task.id}>
+                      <td>{task.id}</td>
                       <td>
-                        <img src={project.image_path} alt="" style={{ width: '200px' }}/>
+                        <img src={task.image_path} alt="" style={{ width: '200px' }}/>
                       </td>
-                      <td>{project.name}</td>
-                      <td>{project.status}</td>
-                      <td>{format(new Date(project.created_at), 'yyyy-MM-dd')}</td>
-                      <td>{format(new Date(project.due_date), 'yyyy-MM-dd')}</td>
-                      <td>{project.createdBy.name}</td>
+                      <td>{task.name}</td>
+                      <td>{task.status}</td>
+                      <td>{format(new Date(task.created_at), 'yyyy-MM-dd')}</td>
+                      <td>{format(new Date(task.due_date), 'yyyy-MM-dd')}</td>
+                      <td>{task.createdBy.name}</td>
                       <td>
                         <div className="d-flex flex-column justify-content-center">
-                          <Link href={route("project.edit", project.id)} className="btn btn-primary mb-2 btn-sm" 
+                          <Link href={route("task.edit", task.id)} className="btn btn-primary mb-2 btn-sm" 
                             style={{ width: '100px' }}>
                               Изменить
                             </Link>
-                          <Link href={route("project.edit", project.id)} className="btn btn-danger btn-sm"
+                          <Link href={route("task.edit", task.id)} className="btn btn-danger btn-sm"
                             style={{ width: '100px' }}>
                               Удалить
                             </Link>
@@ -154,7 +154,7 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
                 </tbody>
               </table>
               <div className="d-flex justify-content-center">
-                <Pagination links={projects.meta.links} />
+                <Pagination links={tasks.meta.links} />
               </div>
             </div>
           </div>
