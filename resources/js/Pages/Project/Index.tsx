@@ -7,48 +7,9 @@ import Pagination from "@/Components/Pagination";
 import { useTranslation } from 'react-i18next';
 import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
+import type { Project, IndexProps } from './types';
 
-interface Auth {
-  data: any;
-  user: {
-    // Определите свойства пользователя, которые вам нужны
-    id: number;
-    name: string;
-    email: string;
-    email_verified_at: string;
-    data: Object;
-  },
-  projects: {
-    id: number;
-    name: string;
-    description: string;
-    created_at: Date;
-    due_date: Date;
-    status: string;
-    image_path: string;
-    createdBy: string;
-    updatedBy: string;
-  };
-}
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  created_at: Date;
-  due_date: Date;
-  status: string;
-  image_path: string;
-  createdBy: string;
-  updatedBy: string;
-}
-
-interface IndexProps {
-  auth: Auth;
-  projects: Auth;
-}
-
-const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): any => {
+const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }: IndexProps): any => {
   queryParams = queryParams || {};
   const { t } = useTranslation();
 
@@ -132,7 +93,14 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }): an
                       <td>
                         <img src={project.image_path} alt="" style={{ width: '200px' }}/>
                       </td>
-                      <td>{project.name}</td>
+                      <td>
+                        <Link 
+                          href={route('project.show', project.id)} 
+                          className="hover:underline text-black"
+                        >
+                          {project.name}
+                        </Link>
+                      </td>
                       <td>{project.status}</td>
                       <td>{format(new Date(project.created_at), 'yyyy-MM-dd')}</td>
                       <td>{format(new Date(project.due_date), 'yyyy-MM-dd')}</td>

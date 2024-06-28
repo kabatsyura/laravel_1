@@ -3,13 +3,40 @@
     "id": "ID",
     "header": "Мои проекты",
     "image": "Изображение",
+    "name": "Название проекта",
+    "status": "Статус",
+    "created_at": "Дата создания",
+    "updated_at": "Дата обновления",
+    "due_date": "Срок выполнения",
+    "createdBy": {
+      "id": "ID пользователя",
+      "name": "Кем создан",
+      "email": "Email создателя"
+    },
+    "updatedBy": {
+      "id": "ID пользователя",
+      "name": "Кем обновлен",
+      "email": "Email создателя"
+    },
+    "actions": "Задачи",
+    "projectStatus": {
+      "nothing": "",
+      "pending": "Отменен",
+      "in_progress": "В процессе",
+      "completed": "Завершен"
+    }
+  },
+  "task": {
+    "id": "ID",
+    "header": "Мои задачи",
+    "image": "Изображение",
     "name": "Название задачи",
     "status": "Статус",
     "created_at": "Дата создания",
     "due_date": "Срок выполнения",
     "createdBy.name": "Кем создана",
     "actions": "Задачи",
-    "projectStatus": {
+    "taskStatus": {
       "nothing": "",
       "pending": "Отменен",
       "in_progress": "В процессе",
