@@ -1,15 +1,19 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import Pagination from "@/Components/Pagination";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
-import type { Project, IndexProps } from './types';
+import type { Project, IndexProps } from "../Utils/types";
 
-const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }: IndexProps): any => {
+const Index: React.FC<IndexProps> = ({
+  auth,
+  projects,
+  queryParams = null,
+}: IndexProps): any => {
   queryParams = queryParams || {};
   const { t } = useTranslation();
 
@@ -21,24 +25,34 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }: Ind
     }
 
     router.get(route("project.index"), queryParams);
-  }
+  };
 
-  const onKeyPress = (name: string, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter') {
+  const onKeyPress = (
+    name: string,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key !== "Enter") {
       return null;
     }
     const target = e.target as HTMLInputElement;
     searchFieldChanged(name, target.value);
-  }
-  
+  };
+
   return (
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <h2 className="font-semibold text-xl text-gray-800
-        dark:text-gray-200 leading-tight">
-          {t("project.header")}
-        </h2>
+        <div className="d-flex justify-between">
+          <h2
+            className="font-semibold text-xl text-gray-800
+          dark:text-gray-200 leading-tight"
+          >
+            {t("project.header")}
+          </h2>
+          <Link href={route("project.create")} className="btn btn-primary">
+            {t("create")}
+          </Link>
+        </div>
       }
     >
       <Head title="Проекты" />
@@ -64,20 +78,36 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }: Ind
                     <th></th>
                     <th></th>
                     <th>
-                      <TextInput className="w-full" placeholder="Название проекта"
+                      <TextInput
+                        className="w-full"
+                        placeholder="Название проекта"
                         defaultValue={queryParams.name}
-                        onBlur={(e) => searchFieldChanged('name', e.target.value)}
-                        onKeyDown={(e) => onKeyPress('name', e)}
+                        onBlur={(e) =>
+                          searchFieldChanged("name", e.target.value)
+                        }
+                        onKeyDown={(e) => onKeyPress("name", e)}
                       />
                     </th>
                     <th className="col-2">
-                      <SelectInput className="w-full"
+                      <SelectInput
+                        className="w-full"
                         defaultValue={queryParams.status}
-                        onChange={(e) => searchFieldChanged('status', e.target.value)}>
-                        <option value="">{t("project.projectStatus.nothing")}</option>
-                        <option value={t("project.projectStatus.pending")}>{t("project.projectStatus.pending")}</option>
-                        <option value={t("project.projectStatus.in_progress")}>{t("project.projectStatus.in_progress")}</option>
-                        <option value={t("project.projectStatus.completed")}>{t("project.projectStatus.completed")}</option>
+                        onChange={(e) =>
+                          searchFieldChanged("status", e.target.value)
+                        }
+                      >
+                        <option value="">
+                          {t("project.projectStatus.nothing")}
+                        </option>
+                        <option value={t("project.projectStatus.pending")}>
+                          {t("project.projectStatus.pending")}
+                        </option>
+                        <option value={t("project.projectStatus.in_progress")}>
+                          {t("project.projectStatus.in_progress")}
+                        </option>
+                        <option value={t("project.projectStatus.completed")}>
+                          {t("project.projectStatus.completed")}
+                        </option>
                       </SelectInput>
                     </th>
                     <th></th>
@@ -91,30 +121,44 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }: Ind
                     <tr key={project.id}>
                       <td>{project.id}</td>
                       <td>
-                        <img src={project.image_path} alt="" style={{ width: '200px' }}/>
+                        <img
+                          src={project.image_path}
+                          alt=""
+                          style={{ width: "200px" }}
+                        />
                       </td>
                       <td>
-                        <Link 
-                          href={route('project.show', project.id)} 
+                        <Link
+                          href={route("project.show", project.id)}
                           className="hover:underline text-black"
                         >
                           {project.name}
                         </Link>
                       </td>
                       <td>{project.status}</td>
-                      <td>{format(new Date(project.created_at), 'yyyy-MM-dd')}</td>
-                      <td>{format(new Date(project.due_date), 'yyyy-MM-dd')}</td>
+                      <td>
+                        {format(new Date(project.created_at), "yyyy-MM-dd")}
+                      </td>
+                      <td>
+                        {format(new Date(project.due_date), "yyyy-MM-dd")}
+                      </td>
                       <td>{project.createdBy.name}</td>
                       <td>
                         <div className="d-flex flex-column justify-content-center">
-                          <Link href={route("project.edit", project.id)} className="btn btn-primary mb-2 btn-sm" 
-                            style={{ width: '100px' }}>
-                              Изменить
-                            </Link>
-                          <Link href={route("project.edit", project.id)} className="btn btn-danger btn-sm"
-                            style={{ width: '100px' }}>
-                              Удалить
-                            </Link>
+                          <Link
+                            href={route("project.edit", project.id)}
+                            className="btn btn-primary mb-2 btn-sm"
+                            style={{ width: "100px" }}
+                          >
+                            {t("buttons.edit")}
+                          </Link>
+                          <Link
+                            href={route("project.edit", project.id)}
+                            className="btn btn-danger btn-sm"
+                            style={{ width: "100px" }}
+                          >
+                            {t("buttons.delete")}
+                          </Link>
                         </div>
                       </td>
                     </tr>
@@ -130,6 +174,6 @@ const Index: React.FC<IndexProps> = ({ auth, projects, queryParams = null }: Ind
       </div>
     </AuthenticatedLayout>
   );
-}
+};
 
 export default Index;

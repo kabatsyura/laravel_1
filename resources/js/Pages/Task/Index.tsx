@@ -5,11 +5,9 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from "@/Components/Pagination";
 import { useTranslation } from 'react-i18next';
-import TextInput from "@/Components/TextInput";
-import SelectInput from "@/Components/SelectInput";
-import type { Task, IndexProps } from "../Project/types";
+import type { Task, IndexProps } from "../Utils/types";
 
-const Index: React.FC<IndexProps> = ({ auth, tasks, queryParams = null }): any => {
+const Index: React.FC<IndexProps> = ({ auth, tasks }): any => {
   const { t } = useTranslation();
   
   return (
@@ -58,11 +56,11 @@ const Index: React.FC<IndexProps> = ({ auth, tasks, queryParams = null }): any =
                         <div className="d-flex flex-column justify-content-center">
                           <Link href={route("task.edit", task.id)} className="btn btn-primary mb-2 btn-sm" 
                             style={{ width: '100px' }}>
-                              Изменить
+                              {t("buttons.edit")}
                             </Link>
                           <Link href={route("task.edit", task.id)} className="btn btn-danger btn-sm"
                             style={{ width: '100px' }}>
-                              Удалить
+                              {t("buttons.delete")}
                             </Link>
                         </div>
                       </td>

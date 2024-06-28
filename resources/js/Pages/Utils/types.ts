@@ -35,16 +35,16 @@ interface Auth {
 }
 
 interface Project {
-  data: any;
-  id: number;
+  data?: any;
+  id?: number;
   name: string;
   description: string;
-  created_at: Date;
+  created_at?: Date;
   due_date: Date;
   status: string;
   image_path: string;
-  createdBy: string;
-  updatedBy: string;
+  createdBy?: string;
+  updatedBy?: string;
 }
 
 interface Task {

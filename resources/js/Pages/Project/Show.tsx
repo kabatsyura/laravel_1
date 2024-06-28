@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslation } from "react-i18next";
 import "bootstrap/dist/css/bootstrap.min.css";
-import type { IndexProps } from "./types";
+import type { IndexProps } from "../Utils/types";
 import { Head } from "@inertiajs/react";
 
 const Show: React.FC<IndexProps>  = ({ auth, project }: IndexProps): any => {
