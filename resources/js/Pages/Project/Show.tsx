@@ -31,21 +31,17 @@ const Show: React.FC<IndexProps>  = ({ auth, project }: IndexProps): any => {
                 alt=""
                 className="w-full h-64 object-cover"
               />
-              {JSON.stringify(data, null, 4)}
             </div>
             <div className="container p-3 m-3">
               <div className="row mt-2 fs-3">
-                <p>{t("project.id")}: {data.id}</p>
-              </div>
-              <div className="row mt-2 fs-3">
-                <p>{t("project.name")}: {data.name}</p>
+                <p><span className="fw-bold">{t("project.name")}:</span> {data.name}</p>
               </div>
               <div className="row mt-2 fs-5">
-                <p>{data.description}</p>
+                <p><span className="fw-bold">{t("project.description")}:</span> {data.description}</p>
               </div>
               <div className="row mt-2 fs-5">
-                <div className="col">{t("project.created_at")}: {data.created_at}</div>
-                <div className="col">{t("project.createdBy.name")}: {data.createdBy.name}</div>
+                <div className="col"><span className="fw-bold">{t("project.created_at")}</span>: {data.created_at}</div>
+                <div className="col"><span className="fw-bold">{t("project.createdBy.name")}</span>: {data.createdBy.name}</div>
               </div>
             </div>
           </div>

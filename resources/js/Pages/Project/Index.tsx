@@ -28,6 +28,14 @@ const Index: React.FC<IndexProps> = ({
     router.get(route("project.index"), queryParams);
   };
 
+  const deleteProject = (project: IndexProps): void => {
+    if (!window.confirm('Вы хотите удалить проект?')) {
+
+    }
+
+    router.delete(route('project.destroy', project.id));
+  }
+
   const onKeyPress = (
     name: string,
     e: React.KeyboardEvent<HTMLInputElement>
@@ -162,13 +170,13 @@ const Index: React.FC<IndexProps> = ({
                           >
                             {t("buttons.edit")}
                           </Link>
-                          <Link
-                            href={route("project.edit", project.id)}
+                          <button
+                            onClick={(e) => deleteProject(project)}
                             className="btn btn-danger btn-sm"
                             style={{ width: "100px" }}
                           >
                             {t("buttons.delete")}
-                          </Link>
+                          </button>
                         </div>
                       </td>
                     </tr>

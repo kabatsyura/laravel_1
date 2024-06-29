@@ -3,23 +3,22 @@ import { useTranslation } from "react-i18next";
 import { Head, Link, useForm } from "@inertiajs/react";
 import type { Project, IndexProps } from "../Utils/types";
 import { Form, Col, Row, Container, Button, Card } from "react-bootstrap";
-// import { Inertia } from "@inertiajs/inertia";
 
-const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
+const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
   const { t } = useTranslation();
-  const { data, setData, post, errors } = useForm<Project>({
-    image: "",
-    image_path: undefined,
-    name: "",
-    status: "",
-    description: "",
-    due_date: new Date(),
+  const { data, setData, put, errors } = useForm<Project>({
+    image_path: project.image_path || undefined,
+    name: project.name || "",
+    status: project.status || "",
+    description: project.description || "",
+    due_date: project.due_date || new Date(),
   });
+  console.log(project.id);
 
-  const onSubmit = (e: React.FormEvent): void => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    post(route('project.store'));
+    put(route("project.update", project.data.id));
   };
 
   return (
@@ -28,7 +27,7 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
       header={
         <div className="d-flex justify-between">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {t("create")}
+            {t("edit")}
           </h2>
         </div>
       }
@@ -39,6 +38,7 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
           <Col md={8} lg={6}>
             <Card className="shadow-sm border-0">
               <Card.Body>
+                {JSON.stringify(project, null, 4)}
                 <Form className="p-4" onSubmit={onSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>{t("form.name")}</Form.Label>
@@ -51,7 +51,6 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                       }
                       placeholder={t("form.name")}
                       isInvalid={!!errors.name}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -61,15 +60,14 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                     <Form.Label>{t("form.image")}</Form.Label>
                     <Form.Control
                       type="file"
-                      name="image"
+                      name="image_path"
                       className="py-2"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (e.target.files && e.target.files[0]) {
-                          setData("image", e.target.files[0]);
-                        }                        
+                          setData("image_path", e.target.files[0]);
+                        }
                       }}
                       isInvalid={!!errors.image_path}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.image_path}
@@ -84,14 +82,19 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                         setData("status", e.target.value)
                       }
                       isInvalid={!!errors.status}
-                      required
                     >
-                      <option value="">{t("project.projectStatus.nothing")}</option>
-                      <option value="Отменен">{t("project.projectStatus.pending")}</option>
+                      <option value="">
+                        {t("project.projectStatus.nothing")}
+                      </option>
+                      <option value="Отменен">
+                        {t("project.projectStatus.pending")}
+                      </option>
                       <option value="В процессе">
                         {t("project.projectStatus.in_progress")}
                       </option>
-                      <option value="Завершен">{t("project.projectStatus.completed")}</option>
+                      <option value="Завершен">
+                        {t("project.projectStatus.completed")}
+                      </option>
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
                       {errors.status}
@@ -109,7 +112,6 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                       }
                       placeholder={t("form.description")}
                       isInvalid={!!errors.description}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.description}
@@ -125,7 +127,6 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                         setData("due_date", new Date(e.target.value))
                       }
                       isInvalid={!!errors.due_date}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.due_date}
@@ -136,7 +137,7 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                     className="w-100 py-2 mb-3"
                     variant="primary"
                   >
-                    {t("buttons.create")}
+                    {t("buttons.edit")}
                   </Button>
                   <div className="d-flex justify-content-center">
                     <Link href={route("project.index")}>
@@ -153,4 +154,4 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
   );
 };
 
-export default Create;
+export default Edit;

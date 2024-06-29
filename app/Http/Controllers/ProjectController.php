@@ -9,7 +9,6 @@ use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Stringable;
 
 class ProjectController extends Controller
 {
@@ -61,15 +60,15 @@ class ProjectController extends Controller
         $image = $data['image_path'] ?? null;
 
         if ($image) {
-            $data['image_path'] = $image->store('project/' . Str::random(), 'public');
+            $data['image_path'] = $image->store('project/'.Str::random(), 'public');
         }
-        
+
         // в случаях, когда создаешь данные, но их нет в форме
         // тогда в методе вызываем необходимые функции
         // сохраняем и используем в дальнейшем
         $data['created_by'] = Auth::id();
         $data['updated_by'] = Auth::id();
-        
+
         Project::create($data);
 
         return to_route('project.index')->with('success', 'Проект был создан!');
@@ -93,7 +92,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return inertia('Project/Edit', [
+            'project' => new ProjectResource($project),
+        ]);
     }
 
     /**
@@ -101,7 +102,10 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $data = $request->validated();
+        $project->update($request->validated());
+
+        return to_route('project.index')->with('success', "Проект \"{$project->name}\" был успешно обновлен!");
     }
 
     /**
@@ -109,6 +113,11 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $nameOfDeletedProject = $project->name;
+
+        $project->tasks()->delete();
+        $project->delete();
+
+        return to_route('project.index')->with('success', "Проект \"{$nameOfDeletedProject}\" был успешно удален!");
     }
 }
