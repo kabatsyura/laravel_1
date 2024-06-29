@@ -13,6 +13,7 @@ const Index: React.FC<IndexProps> = ({
   auth,
   projects,
   queryParams = null,
+  success
 }: IndexProps): any => {
   queryParams = queryParams || {};
   const { t } = useTranslation();
@@ -56,6 +57,15 @@ const Index: React.FC<IndexProps> = ({
       }
     >
       <Head title="Проекты" />
+
+      {/* вывод когда проект создан */}
+      {success && (
+        <div 
+        className="mx-auto py-2 px-4 mt-4 col-4 rounded bg-emerald-500 text-align-center">
+          {success}
+        </div>
+      )}
+
       <div className="py-12">
         <div className="mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

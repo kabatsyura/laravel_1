@@ -48,4 +48,7 @@ makeResource:
 
 route-list:
 	php artisan route:list
+
+connect-storage:
+	php artisan storage:link
 	

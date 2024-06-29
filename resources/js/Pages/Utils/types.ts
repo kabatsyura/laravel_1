@@ -42,9 +42,19 @@ interface Project {
   created_at?: Date;
   due_date: Date;
   status: string;
-  image_path: string;
-  createdBy?: string;
-  updatedBy?: string;
+  image_path: File | undefined;
+  createdBy?: {
+    id: number;
+    name: string;
+    email: string;
+    created_at: Date;
+  };
+  updatedBy?: {
+    id: number;
+    name: string;
+    email: string;
+    created_at: Date;
+  };
 }
 
 interface Task {
@@ -66,6 +76,8 @@ interface IndexProps {
   project: Project;
   tasks: Auth;
   task: Task;
+  success: string;
+  queryParams: any;
 }
 
 export type { Auth, Project, Task, IndexProps };

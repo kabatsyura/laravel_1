@@ -11,6 +11,16 @@ class Project extends Model
     // Подключение трейт HasFactory, который добавляет возможность создания фабрик для модели.
     use HasFactory;
 
+    protected $fillable = [
+        'image_path',
+        'name',
+        'description',
+        'status',
+        'due_date',
+        'created_by',
+        'updated_by',
+    ];
+
     // Определение отношения "один ко многим" с моделью Task.
     // Это значит, что один проект может иметь много задач.
     public function tasks()

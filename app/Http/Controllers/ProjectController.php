@@ -7,6 +7,9 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Stringable;
 
 class ProjectController extends Controller
 {
@@ -36,6 +39,8 @@ class ProjectController extends Controller
             'projects' => ProjectResource::collection($projects),
             // Возврат значения фильтра. Параметры запроса для сохранения состояния фильтрации
             'queryParams' => request()->query() ?: null,
+            // после успешного создания проекта из метода store()
+            'success' => session('success'),
         ]);
     }
 
@@ -52,7 +57,22 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $data = $request->validated();
+        $image = $data['image_path'] ?? null;
+
+        if ($image) {
+            $data['image_path'] = $image->store('project/' . Str::random(), 'public');
+        }
+        
+        // в случаях, когда создаешь данные, но их нет в форме
+        // тогда в методе вызываем необходимые функции
+        // сохраняем и используем в дальнейшем
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        
+        Project::create($data);
+
+        return to_route('project.index')->with('success', 'Проект был создан!');
     }
 
     /**
