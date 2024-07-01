@@ -10,98 +10,99 @@ use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
-  use RefreshDatabase;
+    use RefreshDatabase;
 
-  protected $user;
-  protected $projects;
+    protected $user;
 
-  protected function setUp(): void
-  {
-    parent::setUp();
+    protected $projects;
 
-    $this->user = User::factory()->create();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-    $this->projects = Project::factory()
-      ->count(3)
-      ->hasTasks(3)
-      ->create([
-        'created_by' => $this->user->id,
-        'updated_by' => $this->user->id
-      ]);
+        $this->user = User::factory()->create();
 
-    $this->actingAs($this->user);
-  }
+        $this->projects = Project::factory()
+            ->count(3)
+            ->hasTasks(3)
+            ->create([
+                'created_by' => $this->user->id,
+                'updated_by' => $this->user->id,
+            ]);
 
-  protected function tearDown(): void
-  {
-    foreach ($this->projects as $project) {
-      $project->tasks()->delete();
-      $project->delete();
+        $this->actingAs($this->user);
     }
 
-    $this->user->delete();
+    protected function tearDown(): void
+    {
+        foreach ($this->projects as $project) {
+            $project->tasks()->delete();
+            $project->delete();
+        }
 
-    parent::tearDown();
-  }
+        $this->user->delete();
 
-  #[Test]
-  public function projectModelExists(): void
-  {
-    foreach ($this->projects as $project) {
-      $this->assertModelExists($project);
+        parent::tearDown();
     }
-  }
 
-  #[Test]
-  public function projectRouteStatus(): void
-  {
-    $response = $this->get(route('project.index'));
-    $response->assertStatus(200);
-
-    foreach ($this->projects as $project) {
-      $response->assertSee($project->name);
+    #[Test]
+    public function projectModelExists(): void
+    {
+        foreach ($this->projects as $project) {
+            $this->assertModelExists($project);
+        }
     }
-  }
 
-  #[Test]
-  public function projectDatabaseCount(): void
-  {
-    $this->assertDatabaseCount('users', 1);
-    $this->assertDatabaseCount('projects', 3);
-    $this->assertDatabaseCount('tasks', 9);
-  }
+    #[Test]
+    public function projectRouteStatus(): void
+    {
+        $response = $this->get(route('project.index'));
+        $response->assertStatus(200);
 
-  #[Test]
-  public function projectDatabaseHas(): void
-  {
-    Project::factory()
-      ->create([
-        'name' => 'Проект 1',
-        'description' => 'Привет, Мир!',
-        'due_date' => now(),
-        'status' => 'Отменен',
-        'image_path' => 'https://храним-картинки.рф',
-        'created_by' => $this->user->id,
-        'updated_by' => $this->user->id,
-        'created_at' => now(),
-        'updated_at' => now(),
-      ]);
-
-      $this->assertDatabaseHas('projects', [
-        'name' => 'Проект 1',
-        'description' => 'Привет, Мир!',
-        'status' => 'Отменен',
-        'image_path' => 'https://храним-картинки.рф',
-    ]);
-  }
-
-  #[Test]
-  function projectDelete(): void
-  {
-    foreach ($this->projects as $project) {
-      $project->tasks()->delete();
-      $project->delete();
-      $this->assertSoftDeleted($project);
+        foreach ($this->projects as $project) {
+            $response->assertSee($project->name);
+        }
     }
-  }
+
+    #[Test]
+    public function projectDatabaseCount(): void
+    {
+        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseCount('projects', 3);
+        $this->assertDatabaseCount('tasks', 9);
+    }
+
+    #[Test]
+    public function projectDatabaseHas(): void
+    {
+        Project::factory()
+            ->create([
+                'name' => 'Проект 1',
+                'description' => 'Привет, Мир!',
+                'due_date' => now(),
+                'status' => 'Отменен',
+                'image_path' => 'https://храним-картинки.рф',
+                'created_by' => $this->user->id,
+                'updated_by' => $this->user->id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+        $this->assertDatabaseHas('projects', [
+            'name' => 'Проект 1',
+            'description' => 'Привет, Мир!',
+            'status' => 'Отменен',
+            'image_path' => 'https://храним-картинки.рф',
+        ]);
+    }
+
+    #[Test]
+    public function projectDelete(): void
+    {
+        foreach ($this->projects as $project) {
+            $project->tasks()->delete();
+            $project->delete();
+            $this->assertSoftDeleted($project);
+        }
+    }
 }
