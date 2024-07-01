@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 // Определение модели Project, которая представляет собой проект в системе.
 class Project extends Model
 {
-    // Подключение трейт HasFactory, который добавляет возможность создания фабрик для модели.
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'image_path',

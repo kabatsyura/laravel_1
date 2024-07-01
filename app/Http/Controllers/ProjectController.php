@@ -103,7 +103,9 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $data = $request->validated();
-        $project->update($request->validated());
+        $data['updated_by'] = Auth::id();
+        
+        $project->update($data);
 
         return to_route('project.index')->with('success', "Проект \"{$project->name}\" был успешно обновлен!");
     }
