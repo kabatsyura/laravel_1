@@ -1,13 +1,14 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslation } from "react-i18next";
 import { Head, Link, useForm } from "@inertiajs/react";
-import type { Project, IndexProps } from "../Utils/types";
+import type { Project, IndexProps } from "../../types/types";
 import { Form, Col, Row, Container, Button, Card } from "react-bootstrap";
 
 const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
   const { t } = useTranslation();
-  const { data, setData, put, errors } = useForm<Project>({
-    image_path: project.image_path || undefined,
+  const { data, setData, put, errors } = useForm({
+    image: project.image || undefined,
+    image_path: project.image_path || "",
     name: project.name || "",
     status: project.status || "",
     description: project.description || "",
@@ -27,7 +28,7 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
       header={
         <div className="d-flex justify-between">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {t("edit")}
+            {t("edit")} "{project.data.name}"
           </h2>
         </div>
       }
@@ -38,7 +39,6 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
           <Col md={8} lg={6}>
             <Card className="shadow-sm border-0">
               <Card.Body>
-                {JSON.stringify(project, null, 4)}
                 <Form className="p-4" onSubmit={onSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>{t("form.name")}</Form.Label>
@@ -60,11 +60,11 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
                     <Form.Label>{t("form.image")}</Form.Label>
                     <Form.Control
                       type="file"
-                      name="image_path"
+                      name="image"
                       className="py-2"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (e.target.files && e.target.files[0]) {
-                          setData("image_path", e.target.files[0]);
+                          setData("image", e.target.files[0]);
                         }
                       }}
                       isInvalid={!!errors.image_path}

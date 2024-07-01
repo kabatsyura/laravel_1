@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react";
 interface PaginationProps {
   links: { 
     label: string,
-    url: string
+    url: string | null
    }[];
 }
 

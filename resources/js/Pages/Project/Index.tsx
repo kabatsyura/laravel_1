@@ -7,7 +7,7 @@ import Pagination from "@/Components/Pagination";
 import { useTranslation } from "react-i18next";
 import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
-import type { Project, IndexProps } from "../Utils/types";
+import type { Project, IndexProps } from "../../types/types";
 
 const Index: React.FC<IndexProps> = ({
   auth,
@@ -28,7 +28,7 @@ const Index: React.FC<IndexProps> = ({
     router.get(route("project.index"), queryParams);
   };
 
-  const deleteProject = (project: IndexProps): void => {
+  const deleteProject = (project: Project): void => {
     if (!window.confirm('Вы хотите удалить проект?')) {
 
     }
@@ -155,12 +155,12 @@ const Index: React.FC<IndexProps> = ({
                       </td>
                       <td>{project.status}</td>
                       <td>
-                        {format(new Date(project.created_at), "yyyy-MM-dd")}
+                        {project.created_at ? format(new Date(project.created_at), "yyyy-MM-dd") : ''}
                       </td>
                       <td>
-                        {format(new Date(project.due_date), "yyyy-MM-dd")}
+                        {project.due_date ? format(new Date(project.due_date), "yyyy-MM-dd") : ''}
                       </td>
-                      <td>{project.createdBy.name}</td>
+                      <td>{project.createdBy?.name}</td>
                       <td>
                         <div className="d-flex flex-column justify-content-center">
                           <Link

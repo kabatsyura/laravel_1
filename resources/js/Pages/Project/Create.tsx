@@ -1,15 +1,15 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslation } from "react-i18next";
 import { Head, Link, useForm } from "@inertiajs/react";
-import type { Project, IndexProps } from "../Utils/types";
+import type { Project, IndexProps } from "../../types/types";
 import { Form, Col, Row, Container, Button, Card } from "react-bootstrap";
 // import { Inertia } from "@inertiajs/inertia";
 
 const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
   const { t } = useTranslation();
   const { data, setData, post, errors } = useForm<Project>({
-    image: "",
-    image_path: undefined,
+    image: undefined,
+    image_path: '',
     name: "",
     status: "",
     description: "",

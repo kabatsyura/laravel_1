@@ -5,7 +5,7 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Pagination from "@/Components/Pagination";
 import { useTranslation } from 'react-i18next';
-import type { Task, IndexProps } from "../Utils/types";
+import type { Task, IndexProps } from "../../types/types";
 
 const Index: React.FC<IndexProps> = ({ auth, tasks }): any => {
   const { t } = useTranslation();

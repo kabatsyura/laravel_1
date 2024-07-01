@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslation } from "react-i18next";
 import "bootstrap/dist/css/bootstrap.min.css";
-import type { IndexProps } from "../Utils/types";
+import type { IndexProps } from "../../types/types";
 import { Head } from "@inertiajs/react";
 
 const Show: React.FC<IndexProps>  = ({ auth, project }: IndexProps): any => {
@@ -31,7 +31,6 @@ const Show: React.FC<IndexProps>  = ({ auth, project }: IndexProps): any => {
                 alt=""
                 className="w-full h-64 object-cover"
               />
-              {JSON.stringify(data, null, 4)}
             </div>
             <div className="container p-3 m-3">
               <div className="row mt-2 fs-3">
