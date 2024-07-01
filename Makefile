@@ -1,3 +1,6 @@
+test:
+	php artisan test
+
 laravel-install-breeze:
 	composer require laravel/breeze --dev
 	php artisan breeze:install
