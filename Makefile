@@ -60,4 +60,10 @@ route-list:
 
 connect-storage:
 	php artisan storage:link
+
+docker-build:
+	docker build -t dmitriikabatsiura/laravel-project-manager:v2
+
+docker-run:
+	docker run -it -p 8000:3000 dmitriikabatsiura/laravel-project-manager:v2
 	
