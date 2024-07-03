@@ -7,14 +7,22 @@
       apt:
         update_cache: yes
 
-    - name: Install dependencies
+    - name: Install curl
       apt:
-        name: "{{ item }}"
+        name: curl
         state: present
-      loop:
-        - curl
-        - docker.io
-        - docker-compose
+
+    - name: Install Docker using the official script
+      shell: |
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sh get-docker.sh
+      args:
+        executable: /bin/bash
+
+    - name: Install docker-compose
+      apt:
+        name: docker-compose
+        state: present
 
     - name: Ensure Docker service is running
       service:
