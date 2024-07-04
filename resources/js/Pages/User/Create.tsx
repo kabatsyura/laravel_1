@@ -1,24 +1,36 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useTranslation } from "react-i18next";
 import { Head, Link, useForm } from "@inertiajs/react";
-import type { Project, IndexProps } from "../../types/types";
+import type { User, IndexProps } from "../../types/types";
 import { Form, Col, Row, Container, Button, Card } from "react-bootstrap";
+// import { Inertia } from "@inertiajs/inertia";
 
-const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
+const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
   const { t } = useTranslation();
-  const { data, setData, put, errors } = useForm({
-    image: project.image,
-    image_path: project.image_path,
-    name: project.name,
-    status: project.status,
-    description: project.description,
-    due_date: project.due_date,
+  const { data, setData, post, errors } = useForm<User>({
+    image: null,
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
   });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
-    put(route("project.update", project.data.id));
+    const formData = new FormData();
+    formData.append("image", data.image as File);
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("password_confirmation", data.password_confirmation);
+
+    post(route('user.store'), {
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
 
   return (
@@ -27,7 +39,7 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
       header={
         <div className="d-flex justify-between">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {t("edit")} "{project.data.name}"
+            {t("create.user")}
           </h2>
         </div>
       }
@@ -40,7 +52,7 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
               <Card.Body>
                 <Form className="p-4" onSubmit={onSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label>{t("form.name.project")}</Form.Label>
+                    <Form.Label>{t("form.name.user")}</Form.Label>
                     <Form.Control
                       type="text"
                       className="py-2"
@@ -48,8 +60,9 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setData("name", e.target.value)
                       }
-                      placeholder={t("form.name.project")}
+                      placeholder={t("form.name.user")}
                       isInvalid={!!errors.name}
+                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -60,75 +73,67 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
                     <Form.Control
                       type="file"
                       name="image"
-                      className="py-2"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        if (e.target.files && e.target.files[0]) {
-                          setData("image", e.target.files[0]);
-                        }
-                      }}
-                      isInvalid={!!errors.image_path}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.image_path}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>{t("form.status")}</Form.Label>
-                    <Form.Select
-                      className="py-2"
-                      value={data.status}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                        setData("status", e.target.value)
-                      }
-                      isInvalid={!!errors.status}
-                    >
-                      <option value="">
-                        {t("project.projectStatus.nothing")}
-                      </option>
-                      <option value="Отменен">
-                        {t("project.projectStatus.pending")}
-                      </option>
-                      <option value="В процессе">
-                        {t("project.projectStatus.in_progress")}
-                      </option>
-                      <option value="Завершен">
-                        {t("project.projectStatus.completed")}
-                      </option>
-                    </Form.Select>
-                    <Form.Control.Feedback type="invalid">
-                      {errors.status}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>{t("form.description")}</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      className="py-2"
-                      value={data.description}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setData("description", e.target.value)
+                          setData(
+                              "image",
+                              e.target.files ? e.target.files[0] : null
+                          )
                       }
-                      placeholder={t("form.description")}
-                      isInvalid={!!errors.description}
+                      required
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.description}
+                      {errors.image}
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Label>{t("form.due_date")}</Form.Label>
+                    <Form.Label>{t("form.email")}</Form.Label>
                     <Form.Control
-                      type="date"
+                      type="text"
                       className="py-2"
-                      value={data.due_date.toISOString().split("T")[0]}
+                      value={data.email}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setData("due_date", new Date(e.target.value))
+                        setData("email", e.target.value)
                       }
-                      isInvalid={!!errors.due_date}
+                      placeholder={t("form.email")}
+                      isInvalid={!!errors.email}
+                      required
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.due_date}
+                      {errors.email}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>{t("form.password")}</Form.Label>
+                    <Form.Control
+                      type="password"
+                      className="py-2"
+                      value={data.password}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("password", e.target.value)
+                      }
+                      placeholder={t("form.password")}
+                      isInvalid={!!errors.password}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.password}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>{t("form.password_confirmation")}</Form.Label>
+                    <Form.Control
+                      type="password"
+                      className="py-2"
+                      value={data.password_confirmation}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("password_confirmation", e.target.value)
+                      }
+                      placeholder={t("form.password_confirmation")}
+                      isInvalid={!!errors.password_confirmation}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.password_confirmation}
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Button
@@ -136,11 +141,11 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
                     className="w-100 py-2 mb-3"
                     variant="primary"
                   >
-                    {t("buttons.edit")}
+                    {t("buttons.create")}
                   </Button>
                   <div className="d-flex justify-content-center">
-                    <Link href={route("project.index")}>
-                      {t("links.toProjects")}
+                    <Link href={route("user.index")}>
+                      {t("links.toUsers")}
                     </Link>
                   </div>
                 </Form>
@@ -153,4 +158,4 @@ const Edit: React.FC<IndexProps> = ({ auth, project }: IndexProps): any => {
   );
 };
 
-export default Edit;
+export default Create;

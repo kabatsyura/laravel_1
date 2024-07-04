@@ -41,7 +41,7 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
               <Card.Body>
                 <Form className="p-4" onSubmit={onSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label>{t("form.name")}</Form.Label>
+                    <Form.Label>{t("form.name.project")}</Form.Label>
                     <Form.Control
                       type="text"
                       className="py-2"
@@ -49,7 +49,7 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setData("name", e.target.value)
                       }
-                      placeholder={t("form.name")}
+                      placeholder={t("form.name.project")}
                       isInvalid={!!errors.name}
                       required
                     />

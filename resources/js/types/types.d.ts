@@ -81,14 +81,32 @@ interface Tasks {
   meta: Meta; // Добавлено поле meta
 }
 
+interface User {
+  id?: number;
+  data?: any;
+  image: File | null;
+  name: string;
+  email: string;
+  created_at?: string;
+  password: string;
+  password_confirmation: string;
+}
+
+interface Users {
+  data: User[];
+  meta: Meta;
+}
+
 interface IndexProps {
   auth: Auth;
   projects: Projects;
   project: Project;
   tasks: Tasks;
   task: Task;
+  users: Users;
+  user: User;
   success: string;
   queryParams: any;
 }
 
-export type { Auth, Project, Task, IndexProps };
+export type { Auth, Project, Task, IndexProps, User };

@@ -79,11 +79,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $tasks = $project->tasks()->orderBy('id', 'desc')->paginate(5);
-
         return inertia('Project/Show', [
-            'project' => new ProjectResource($project),
-            'tasks' => TaskResource::collection($tasks),
+            'project' => new ProjectResource($project)
         ]);
     }
 
