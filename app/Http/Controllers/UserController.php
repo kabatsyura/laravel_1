@@ -42,7 +42,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return inertia("User/Create");
+        return inertia('User/Create');
     }
 
     /**
@@ -78,7 +78,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return inertia("User/Edit", [
+        return inertia('User/Edit', [
             'user' => new UserResource($user),
         ]);
     }

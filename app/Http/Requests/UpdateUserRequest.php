@@ -24,16 +24,16 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "max:255"],
-            "email" => [
-                "required", 
-                "string", 
-                "email", 
-                Rule::unique('users')->ignore($this->id)
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                Rule::unique('users')->ignore($this->id),
             ],
-            "password" => [
-                "confirmed", Password::min(8)->letters()->symbols()->numbers(),
-            ]
+            'password' => [
+                'confirmed', Password::min(8)->letters()->symbols()->numbers(),
+            ],
         ];
     }
 }

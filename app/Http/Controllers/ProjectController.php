@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
-use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -80,7 +79,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return inertia('Project/Show', [
-            'project' => new ProjectResource($project)
+            'project' => new ProjectResource($project),
         ]);
     }
 

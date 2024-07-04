@@ -23,19 +23,19 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "max:255"],
-            "email" => ["required", "string", "email", "unique:users,email"],
-            "password" => [
-                "required", "confirmed", Password::min(8)->letters()->symbols()->numbers(),
-            ]
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'unique:users,email'],
+            'password' => [
+                'required', 'confirmed', Password::min(8)->letters()->symbols()->numbers(),
+            ],
         ];
     }
 
     public function messages()
     {
-    return [
-        'email.unique' => 'Этот email уже зарегистрирован.',
-        // другие пользовательские сообщения
-    ];
+        return [
+            'email.unique' => 'Этот email уже зарегистрирован.',
+            // другие пользовательские сообщения
+        ];
     }
 }
