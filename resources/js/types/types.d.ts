@@ -84,12 +84,13 @@ interface Tasks {
 interface User {
   id?: number;
   data?: any;
-  image: File | null;
+  image: string | null;
   name: string;
   email: string;
   created_at?: string;
   password: string;
   password_confirmation: string;
+  state: 'Active' | 'Banned';
 }
 
 interface Users {

@@ -7,7 +7,7 @@ import { Form, Col, Row, Container, Button, Card } from "react-bootstrap";
 const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
   const { t } = useTranslation();
   const { data, setData, put, errors } = useForm({
-    image: user.image,
+    image: null as File | null,
     name: user.name,
     email: user.email,
     password: user.password,
@@ -16,7 +16,7 @@ const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     put(route("user.update", user.data.id));
   };
 
@@ -49,7 +49,6 @@ const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
                       }
                       placeholder={t("form.name.user")}
                       isInvalid={!!errors.name}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.name}
@@ -66,7 +65,6 @@ const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
                               e.target.files ? e.target.files[0] : null
                           )
                       }
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.image}
@@ -83,7 +81,6 @@ const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
                       }
                       placeholder={t("form.email")}
                       isInvalid={!!errors.email}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.email}
@@ -100,7 +97,6 @@ const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
                       }
                       placeholder={t("form.password")}
                       isInvalid={!!errors.password}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.password}
@@ -117,7 +113,6 @@ const Edit: React.FC<IndexProps> = ({ auth, user }: IndexProps) => {
                       }
                       placeholder={t("form.password_confirmation")}
                       isInvalid={!!errors.password_confirmation}
-                      required
                     />
                     <Form.Control.Feedback type="invalid">
                       {errors.password_confirmation}

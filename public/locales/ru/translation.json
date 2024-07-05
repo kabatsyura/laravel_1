@@ -69,7 +69,9 @@
   "buttons": {
     "create": "Создать",
     "edit": "Изменить",
-    "delete": "Удалить"
+    "delete": "Удалить",
+    "toBanned": "Забанить",
+    "toActive": "Активировать"
   },
   "links": {
     "toProjects": "Вернуться к проектам"

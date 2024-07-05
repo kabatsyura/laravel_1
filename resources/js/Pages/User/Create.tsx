@@ -7,8 +7,8 @@ import { Form, Col, Row, Container, Button, Card } from "react-bootstrap";
 
 const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
   const { t } = useTranslation();
-  const { data, setData, post, errors } = useForm<User>({
-    image: null,
+  const { data, setData, post, errors } = useForm({
+    image: null as File | null,
     name: "",
     email: "",
     password: "",
@@ -19,17 +19,8 @@ const Create: React.FC<IndexProps> = ({ auth }: IndexProps): any => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("image", data.image as File);
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-    formData.append("password_confirmation", data.password_confirmation);
-
     post(route('user.store'), {
-      data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      forceFormData: true
     });
   };
 

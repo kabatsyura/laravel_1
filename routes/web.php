@@ -16,6 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('project', ProjectController::class);
     Route::resource('task', TaskController::class);
     Route::resource('user', UserController::class);
+
+    Route::post('users/{user}/ban', [UserController::class, 'toBanned'])->name('user.toBanned');
+    Route::post('users/{user}/unban', [UserController::class, 'toActive'])->name('user.toActive');
 });
 
 Route::middleware('auth')->group(function () {

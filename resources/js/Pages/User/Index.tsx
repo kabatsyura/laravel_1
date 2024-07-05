@@ -46,6 +46,14 @@ const Index: React.FC<IndexProps> = ({
     searchFieldChanged(name, target.value);
   };
 
+  const toBanned = (user: User) => {
+    router.post(route("user.toBanned", user.id));
+  }
+
+  const toActive = (user: User) => {
+    router.post(route("user.toActive", user.id));
+  }
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -86,6 +94,7 @@ const Index: React.FC<IndexProps> = ({
                     <th>{t("user.email")}</th>
                     <th>{t("user.created_at")}</th>
                     <th>{t("user.actions")}</th>
+                    <th>{t("user.state")}</th>
                   </tr>
                 </thead>
                 <thead className="fs-4">
@@ -106,6 +115,7 @@ const Index: React.FC<IndexProps> = ({
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody className="fs-5">
@@ -113,14 +123,16 @@ const Index: React.FC<IndexProps> = ({
                     <tr key={user.id}>
                       <td>{user.id}</td>
                       <td>
-                        <img
-                          src={`/storage/app/public/images/${user.image}`}
-                          alt=""
-                          style={{ 
-                            width: "200px",
-                            borderRadius: "50%",
-                           }}
-                        />
+                        {user.image !== '' && (
+                          <img
+                            src={`${user.image}`}
+                            alt=""
+                            style={{ 
+                              width: "200px",
+                              borderRadius: "50%",
+                            }}
+                          />
+                        )}
                       </td>
                       <td>
                         <Link
@@ -150,6 +162,25 @@ const Index: React.FC<IndexProps> = ({
                           >
                             {t("buttons.delete")}
                           </button>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column justify-content-center">
+                        {user.state === "App\\States\\Active" ? (
+                            <button
+                              className="mx-2 btn btn-danger"
+                              onClick={() => toBanned(user)}
+                            >
+                              {t('buttons.toBanned')}
+                            </button>
+                          ) : (
+                            <button
+                              className="mx-2 btn btn-success"
+                              onClick={() => toActive(user)}
+                            >
+                              {t('buttons.toActive')}
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

@@ -6,6 +6,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\States\Active as Active;
+use App\States\Banned as Banned;
 
 class UserController extends Controller
 {
@@ -55,10 +57,10 @@ class UserController extends Controller
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('images', 'public');
-            // dd($data);
         }
 
-        User::create($data);
+        $user = User::create($data);
+        // dd($user);
 
         return to_route('user.index')->with('success', 'Создан новый пользователь!');
     }
@@ -97,6 +99,10 @@ class UserController extends Controller
             unset($data['password']);
         }
 
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
         $user->update($data);
 
         return to_route('user.index')->with('success', "Данные пользователя \"{$user->name}\" успешно обновлены!");
@@ -111,6 +117,32 @@ class UserController extends Controller
 
         $user->delete();
 
-        return to_route('project.index')->with('success', "Пользователь \"{$nameOfDeletedUser}\" был успешно удален!");
+        return to_route('user.index')->with('success', "Пользователь \"{$nameOfDeletedUser}\" был успешно удален!");
+    }
+
+    public function toBanned(User $user)
+    {
+        if (! $user->state->equals(Banned::class)) {
+            $user->state->transitionTo(Banned::class);
+            $user->save();
+        }
+
+        $nameOfChangedStateUser = $user->name;
+        $stateOfChangedStateUser = $user->state;
+
+        return to_route('user.index')->with('success', "У \"{$nameOfChangedStateUser}\" сменился статус на \"{$stateOfChangedStateUser}\"!");
+    }
+
+    public function toActive(User $user)
+    {
+        if (! $user->state->equals(Active::class)) {
+            $user->state->transitionTo(Active::class);
+            $user->save();
+        }
+
+        $nameOfChangedStateUser = $user->name;
+        $stateOfChangedStateUser = $user->state->label();
+
+        return to_route('user.index')->with('success', "У \"{$nameOfChangedStateUser}\" сменился статус на \"{$stateOfChangedStateUser}\"!");
     }
 }
