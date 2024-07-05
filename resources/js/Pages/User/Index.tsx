@@ -72,7 +72,6 @@ const Index: React.FC<IndexProps> = ({
       }
     >
       <Head title="Пользователи" />
-
       {/* вывод когда проект создан */}
       {success && (
         <div 
@@ -125,7 +124,7 @@ const Index: React.FC<IndexProps> = ({
                       <td>
                         {user.image !== '' && (
                           <img
-                            src={`${user.image}`}
+                            src={`/storage/${user.image}`}
                             alt=""
                             style={{ 
                               width: "200px",

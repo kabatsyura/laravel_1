@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\States\UserState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,10 +11,7 @@ use Spatie\ModelStates\HasStates;
 
 class User extends Authenticatable
 {
-    use HasFactory,
-        HasStates,
-        Notifiable,
-        SoftDeletes;
+    use HasFactory, HasStates, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -41,28 +36,22 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
-        'state' => UserState::class,
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'state' => UserState::class,
     ];
 
     protected function registerStates(): void
     {
-        $this->addState('state', UserState::class);
+        $this->addState('state', UserState::class)
+            ->default(\App\States\Active::class)
+            ->allowTransition(\App\States\Active::class, \App\States\Banned::class)
+            ->allowTransition(\App\States\Banned::class, \App\States\Active::class);
     }
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    // protected function casts(): array
-    // {
-    //     return [
-    //         'email_verified_at' => 'datetime',
-    //         'password' => 'hashed',
-    //         'state' => UserState::class,
-    //     ];
-    // }
 }

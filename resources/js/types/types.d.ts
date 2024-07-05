@@ -90,7 +90,7 @@ interface User {
   created_at?: string;
   password: string;
   password_confirmation: string;
-  state: 'Active' | 'Banned';
+  state: "App\\States\\Active" | 'App\\States\\Banned';
 }
 
 interface Users {
